@@ -9,7 +9,7 @@ public class Weather {
 
 
     @Data
-    static class WeatherMain {
+    public static class WeatherMain {
         private float temp;
         private int humidity;
 
@@ -17,7 +17,7 @@ public class Weather {
     }
 
     @Data
-    static class WeatherWind {
+    public static class WeatherWind {
         private float speed;
         private int deg;
     }

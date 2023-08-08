@@ -13,6 +13,7 @@ public class WeatherController {
     @Resource
     private WeatherService weatherService;
 
+
     @GetMapping("weather/{city}")
     public ResponseEntity<Weather> getWeather(@PathVariable String city) {
         Weather weather = weatherService.getWeather(city);
