@@ -4,6 +4,7 @@ import com.app.weather.model.Weather;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,9 +15,10 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @Profile("production")
 public class WeatherServiceProduction implements WeatherService{
-    private static final String WEATHER_SERVICE_URL =
-            "https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=2edd52f5fd11fd3367e045b6346bfb59";
+
     Logger logger = LoggerFactory.getLogger(WeatherServiceProduction.class);
+    @Value("${weather.url}")
+    private String apiWeather;
     @Resource
     private RestTemplate restTemplate;
 
@@ -24,7 +26,7 @@ public class WeatherServiceProduction implements WeatherService{
         logger.debug("Лог: {}", city);
 
         Weather weather = restTemplate
-                .exchange(WEATHER_SERVICE_URL,
+                .exchange(apiWeather,
                         HttpMethod.GET,
                         new HttpEntity<>(HttpHeaders.EMPTY),
                         Weather.class,

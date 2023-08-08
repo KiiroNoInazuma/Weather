@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Погода</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #banner {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #city-input {
+            border: 2px solid #00bfff;
+            border-radius: 4px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        #weather-button {
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s;
+        }
+
+        #weather-button:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #weather-info {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            border: 2px solid #00bfff;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+<div id="banner">Узнай прогноз погоды в твоем городе!</div>
+<label for="city-input"></label><input type="text" id="city-input" placeholder="Введите название города">
+<button id="weather-button" onclick="getWeather()">Погода</button>
+<div id="weather-info"></div>
+
+<script>
+    function getWeather() {
+        const cityInput = document.getElementById("city-input");
+        const city = cityInput.value.toLowerCase();
+        const scriptCity = javaCity(city);
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://127.0.0.1:8080/weather/" + scriptCity, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const weatherData = JSON.parse(xhr.responseText);
+                displayWeather(weatherData);
+            }
+        };
+        xhr.send();
+    }
+
+    function javaCity(city) {
+        return city;
+    }
+
+    function displayWeather(weatherData) {
+        const weatherInfo = document.getElementById("weather-info");
+        weatherInfo.innerHTML = '';
+
+        const temp = document.createElement("p");
+        temp.textContent = "Температура: " + weatherData.main.temp + "°C";
+        weatherInfo.appendChild(temp);
+
+        const humidity = document.createElement("p");
+        humidity.textContent = "Влажность: " + weatherData.main.humidity + "%";
+        weatherInfo.appendChild(humidity);
+
+        const windSpeed = document.createElement("p");
+        windSpeed.textContent = "Скорость ветра: " + weatherData.wind.speed + " м/c";
+        weatherInfo.appendChild(windSpeed);
+
+        const windDeg = document.createElement("p");
+        windDeg.textContent = "Направление ветра: " + weatherData.wind.deg + "°";
+        weatherInfo.appendChild(windDeg);
+    }
+</script>
+</body>
+</html>
