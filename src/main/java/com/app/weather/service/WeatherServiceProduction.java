@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@Profile("production")
+@Profile("!production")
 public class WeatherServiceProduction implements WeatherService{
 
     Logger logger = LoggerFactory.getLogger(WeatherServiceProduction.class);
