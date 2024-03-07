@@ -68,7 +68,7 @@
         const city = cityInput.value.toLowerCase();
         const scriptCity = javaCity(city);
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://127.0.0.1:8080/weather/" + scriptCity, true);
+        xhr.open("GET", "http://127.0.0.1:1111/weather/" + scriptCity, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const weatherData = JSON.parse(xhr.responseText);
